@@ -15,11 +15,28 @@ dependencies = [
     # Lift it for every week at once, after re-measuring the pins.
     "pandas>=2.0.0,<3",
     "python-dotenv>=1.0.0",
+    "mlflow==3.13.0",
+    "dvc[s3]>=3.67.1",
+    "joblib>=1.4.0",
+    "pyyaml>=6.0",
+    "pandera[pandas]>=0.32.1",
+    "fairlearn>=0.14.0",
 ]
 
 [dependency-groups]
 test = [
     "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: requires the Docker Compose stack to be running",
+    "dvc: requires a DVC-initialised repo",
+]
+# Warnings raised inside pandera and joblib, not by your code.
+filterwarnings = [
+    "ignore:The behavior of DataFrame concatenation with empty or all-NA entries:FutureWarning:pandera.backends.pandas.error_formatters",
+    "ignore:Setting the shape on a NumPy array has been deprecated:DeprecationWarning:joblib.numpy_pickle",
 ]
 
 [build-system]

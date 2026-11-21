@@ -1,0 +1,63 @@
+random_seed: 42
+
+prepare:
+  test_size: 0.2
+
+train:
+  family: hgb
+  learning_rate: 0.05
+  max_iter: 300
+  max_leaf_nodes: 15
+  min_samples_leaf: 50
+  l2_regularization: 1.0
+
+evaluation:
+  slices:
+    weather:
+      column: Weather
+      kind: category
+    area_type:
+      column: Area_Type
+      kind: category
+    dispatch_priority:
+      column: Dispatch_Priority
+      kind: category
+    visibility_missing:
+      column: Visibility_m
+      kind: missing_flag
+      labels: ["visibility_present", "visibility_missing"]
+
+# The acceptance criteria, what "ready to ship" means.
+acceptance:
+  # Stamped onto the MLflow run. Change it whenever a threshold changes.
+  criteria_version: "1.0.0"
+
+  # CHANGED, regression thresholds, placeholders set from your baseline
+  # (rmse 3.6254, mae 2.873, r2 0.7924). Tune them after the first `make repro`.
+  minimum:
+    r2: 0.70
+
+  maximum:
+    rmse: 4.5
+    mae: 3.5
+
+  regression:
+    primary_metric: rmse
+    max_drop: 0.3  # minutes of RMSE the new model may be worse than the champion
+    also_report: [mae, r2]
+
+  slice_rules:
+    min_support: 30
+    max_rmse: 5.5
+    max_rmse_gap: 1.5
+
+  fairness:
+    weather:
+      max_rmse_gap: 2.0
+      max_mae_gap: 1.5
+    area_type:
+      max_rmse_gap: 2.0
+      max_mae_gap: 1.5
+    dispatch_priority:
+      max_rmse_gap: 2.0
+      max_mae_gap: 1.5
