@@ -3,11 +3,15 @@
   "criteria_version": "1.0.0",
   "primary_metric": "rmse",
   "summary": {
-    "passed": 21,
+    "passed": 22,
     "failed": 0,
-    "skipped": 1
+    "skipped": 0
   },
-  "deltas": {},
+  "deltas": {
+    "rmse": 0.0,
+    "mae": 0.0,
+    "r2": 0.0
+  },
   "checks": [
     {
       "id": "minimum.r2",
@@ -40,10 +44,12 @@
       "id": "regression.rmse",
       "kind": "regression",
       "metric": "rmse",
+      "baseline": 3.5204,
       "observed": 3.5204,
-      "baseline": null,
-      "status": "skipped",
-      "reason": "rmse missing from the metrics or the baseline"
+      "delta": 0.0,
+      "max_drop": 0.3,
+      "status": "pass",
+      "reason": null
     },
     {
       "id": "slice.weather.clear",
