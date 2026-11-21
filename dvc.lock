@@ -1,0 +1,236 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: uv run python src/main.py validate
+    deps:
+    - path: data/measurements.csv
+      hash: md5
+      md5: 3ffd6a52c2cb7792bf4d036b22cfd193
+      size: 516869
+    - path: src/mlops_project/pipeline.py
+      hash: md5
+      md5: af48768725e2d004ff726bef61916cf8
+      size: 14760
+    - path: src/mlops_project/schemas.py
+      hash: md5
+      md5: 304616c10d841e40739e478fd9e6bdcd
+      size: 5297
+    - path: src/mlops_project/validation.py
+      hash: md5
+      md5: e6f9b8f1cf7b63da74afa51f18b1fb03
+      size: 5595
+    outs:
+    - path: reports/validation.json
+      hash: md5
+      md5: b1e9f8d45536afb3b6c6723eb9daee3e
+      size: 500
+  prepare:
+    cmd: uv run python src/main.py prepare
+    deps:
+    - path: data/measurements.csv
+      hash: md5
+      md5: 3ffd6a52c2cb7792bf4d036b22cfd193
+      size: 516869
+    - path: reports/validation.json
+      hash: md5
+      md5: b1e9f8d45536afb3b6c6723eb9daee3e
+      size: 500
+    - path: src/mlops_project/data.py
+      hash: md5
+      md5: c5ddb035efcd469f9b6fc341ead7a6cc
+      size: 2397
+    - path: src/mlops_project/pipeline.py
+      hash: md5
+      md5: af48768725e2d004ff726bef61916cf8
+      size: 14760
+    params:
+      params.yaml:
+        prepare.test_size: 0.2
+        random_seed: 42
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 949abaadfd027b1533aa2dd7bc352428
+      size: 103591
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 5850c7aedb54ce43e2fc117b8fdb3589
+      size: 413423
+  train:
+    cmd: uv run python src/main.py train
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 5850c7aedb54ce43e2fc117b8fdb3589
+      size: 413423
+    - path: src/mlops_project/dvc_link.py
+      hash: md5
+      md5: 27a3f7f05e7baf0c5e15dc098d6660dc
+      size: 2405
+    - path: src/mlops_project/model.py
+      hash: md5
+      md5: 35cac5322a1963090b6119c5a093a45a
+      size: 3004
+    - path: src/mlops_project/pipeline.py
+      hash: md5
+      md5: af48768725e2d004ff726bef61916cf8
+      size: 14760
+    - path: src/mlops_project/schemas.py
+      hash: md5
+      md5: 304616c10d841e40739e478fd9e6bdcd
+      size: 5297
+    - path: src/mlops_project/validation.py
+      hash: md5
+      md5: e6f9b8f1cf7b63da74afa51f18b1fb03
+      size: 5595
+    params:
+      params.yaml:
+        random_seed: 42
+        train.family: hgb
+        train.l2_regularization: 1.0
+        train.learning_rate: 0.05
+        train.max_iter: 300
+        train.max_leaf_nodes: 15
+        train.min_samples_leaf: 50
+    outs:
+    - path: models/mlflow_run_id.json
+      hash: md5
+      md5: 44999d81ca056aeb1c11404d9342a59b
+      size: 82
+    - path: models/model.pkl
+      hash: md5
+      md5: 44b29258cec575516a29d4779a2c7c24
+      size: 560850
+  evaluate:
+    cmd: uv run python src/main.py evaluate
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 949abaadfd027b1533aa2dd7bc352428
+      size: 103591
+    - path: models/mlflow_run_id.json
+      hash: md5
+      md5: 44999d81ca056aeb1c11404d9342a59b
+      size: 82
+    - path: models/model.pkl
+      hash: md5
+      md5: 44b29258cec575516a29d4779a2c7c24
+      size: 560850
+    - path: src/mlops_project/evaluation.py
+      hash: md5
+      md5: 39fb60351c2720cb187d2abb87143ed8
+      size: 7198
+    - path: src/mlops_project/fairness.py
+      hash: md5
+      md5: b894e856a29817551fe36f67f7e3e11a
+      size: 4099
+    - path: src/mlops_project/model.py
+      hash: md5
+      md5: 35cac5322a1963090b6119c5a093a45a
+      size: 3004
+    - path: src/mlops_project/pipeline.py
+      hash: md5
+      md5: af48768725e2d004ff726bef61916cf8
+      size: 14760
+    - path: src/mlops_project/schemas.py
+      hash: md5
+      md5: 304616c10d841e40739e478fd9e6bdcd
+      size: 5297
+    - path: src/mlops_project/validation.py
+      hash: md5
+      md5: e6f9b8f1cf7b63da74afa51f18b1fb03
+      size: 5595
+    params:
+      params.yaml:
+        evaluation:
+          slices:
+            weather:
+              column: Weather
+              kind: category
+            area_type:
+              column: Area_Type
+              kind: category
+            dispatch_priority:
+              column: Dispatch_Priority
+              kind: category
+            visibility_missing:
+              column: Visibility_m
+              kind: missing_flag
+              labels:
+              - visibility_present
+              - visibility_missing
+        random_seed: 42
+    outs:
+    - path: metrics/metrics.json
+      hash: md5
+      md5: 31dad4367d9f7c99c5e8addc519e2c2a
+      size: 54
+    - path: metrics/slices.json
+      hash: md5
+      md5: e4a906a02ff57a89930b5a395f530c37
+      size: 3315
+  gate:
+    cmd: uv run python src/main.py gate
+    deps:
+    - path: metrics/baseline.json
+      hash: md5
+      md5: 20a2ddf457de05236fc2eb7371d6ddc7
+      size: 253
+    - path: metrics/metrics.json
+      hash: md5
+      md5: 31dad4367d9f7c99c5e8addc519e2c2a
+      size: 54
+    - path: metrics/slices.json
+      hash: md5
+      md5: e4a906a02ff57a89930b5a395f530c37
+      size: 3315
+    - path: models/mlflow_run_id.json
+      hash: md5
+      md5: 44999d81ca056aeb1c11404d9342a59b
+      size: 82
+    - path: src/mlops_project/baseline.py
+      hash: md5
+      md5: e26efc380c0a2c00cfc979bb9c851bb0
+      size: 3932
+    - path: src/mlops_project/gates.py
+      hash: md5
+      md5: d3105be37c7b85ac9499d1d516d30301
+      size: 14737
+    - path: src/mlops_project/pipeline.py
+      hash: md5
+      md5: af48768725e2d004ff726bef61916cf8
+      size: 14760
+    params:
+      params.yaml:
+        acceptance:
+          criteria_version: 1.0.0
+          minimum:
+            r2: 0.7
+          maximum:
+            rmse: 4.5
+            mae: 3.5
+          regression:
+            primary_metric: rmse
+            max_drop: 0.3
+            also_report:
+            - mae
+            - r2
+          slice_rules:
+            min_support: 30
+            max_rmse: 5.5
+            max_rmse_gap: 1.5
+          fairness:
+            weather:
+              max_rmse_gap: 2.0
+              max_mae_gap: 1.5
+            area_type:
+              max_rmse_gap: 2.0
+              max_mae_gap: 1.5
+            dispatch_priority:
+              max_rmse_gap: 2.0
+              max_mae_gap: 1.5
+    outs:
+    - path: reports/gate.json
+      hash: md5
+      md5: 5c26e8b07955942355a794a738397758
+      size: 5973

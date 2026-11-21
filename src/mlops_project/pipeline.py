@@ -146,7 +146,7 @@ def prepare_model_input(frame) -> tuple:
             "column in SENTINEL_COLUMNS is being converted."
         )
     # Plain float64: the imputer needs NaN, not pandas NA.
-    features = nullable[list(FEATURE_COLUMNS)].astype("float64")
+    features = nullable[list(FEATURE_COLUMNS)]
     labels = nullable[TARGET_COLUMN].astype("float64")
     return features, labels, report
 

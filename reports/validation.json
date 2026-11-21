@@ -2,18 +2,19 @@
   "source": "measurements.csv",
   "schema": "RawMeasurements",
   "schema_version": "1.0.0",
-  "rows": 768,
+  "rows": 8209,
   "columns": [
-    "measurement_date",
-    "pregnancies",
-    "glucose",
-    "blood_pressure",
-    "skin_thickness",
-    "insulin",
-    "bmi",
-    "diabetes_pedigree",
-    "age",
-    "outcome"
+    "Hour",
+    "Month",
+    "Area_Type",
+    "Road_Type",
+    "Intersection_Type",
+    "Weather",
+    "Road_Condition",
+    "Visibility_m",
+    "Congestion_Index",
+    "Dispatch_Priority",
+    "Actual_Response_Time_min"
   ],
   "passed": true,
   "n_failure_cases": 0,
@@ -21,11 +22,5 @@
   "failure_cases": [],
   "by_check": {},
   "by_column": {},
-  "sentinel_zeros": {
-    "glucose": 5,
-    "blood_pressure": 35,
-    "skin_thickness": 227,
-    "insulin": 374,
-    "bmi": 11
-  }
+  "sentinel_zeros": {}
 }

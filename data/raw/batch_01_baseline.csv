@@ -1223,7 +1223,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 16,9,Suburban,Interstate,None,Clear,Dry,8350.4,92.1,High,23.9
 18,2,Suburban,Arterial,4-Way,Rain,Wet,1859.1,84.2,High,26.0
 7,10,Suburban,Arterial,T-Junction,Rain,Wet,2034.0,89.4,Standard,20.0
-7,9,Rural,Interstate,None,Clear,Dry,6090.5,80.7,Standard,41.5
 13,2,Urban,Interstate,None,Clear,Dry,8901.0,84.0,Standard,18.3
 7,11,Urban,Interstate,None,Fog,Dry,275.6,100.0,Standard,29.5
 18,12,Urban,Collector,T-Junction,Clear,Dry,9819.7,90.7,Standard,28.1
@@ -1901,7 +1900,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 21,10,Rural,Collector,T-Junction,Clear,Dry,8529.4,3.8,High,29.5
 7,9,Rural,Arterial,T-Junction,Clear,Wet,10176.3,51.5,High,39.9
 8,2,Suburban,Interstate,None,Snow,Snowy,894.3,100.0,Standard,27.8
-12,4,Urban,Arterial,Roundabout,Rain,Wet,2736.2,66.8,Standard,18.2
 7,7,Suburban,Arterial,4-Way,Rain,Wet,,97.2,High,21.2
 16,12,Urban,Interstate,None,Snow,Snowy,841.3,100.0,Standard,21.6
 17,1,Suburban,Arterial,T-Junction,Snow,Icy,792.9,97.9,High,24.9
@@ -2522,7 +2520,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 10,2,Suburban,Arterial,T-Junction,Snow,Icy,993.2,68.8,Standard,27.0
 20,4,Urban,Arterial,4-Way,Rain,Wet,1761.3,34.63619419350965,Standard,8.6
 8,6,Urban,Arterial,Roundabout,Rain,Wet,1799.8,100.0,High,16.4
-7,10,Suburban,Interstate,None,Fog,Wet,297.2,100.0,Medium,26.5
 18,9,Urban,Arterial,4-Way,Clear,Wet,12670.2,97.4,Medium,17.3
 13,1,Urban,Local,4-Way,Snow,Icy,1246.5,55.7,Standard,11.8
 9,11,Urban,Collector,None,Rain,Standing Water,2206.2,100.0,Standard,25.3
@@ -4235,7 +4232,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 2,12,Suburban,Arterial,4-Way,Snow,Snowy,,16.0,Standard,19.7
 12,7,Rural,Interstate,None,Clear,Dry,14294.3,45.7,Standard,30.7
 7,10,Suburban,Interstate,None,Clear,Dry,10194.9,100.0,High,17.8
-23,10,Suburban,Arterial,T-Junction,Rain,Wet,2199.8,18.7,Standard,17.9
 18,12,Suburban,Interstate,None, RAIN,Wet,1673.4,100.0,Standard,21.7
 18,12,Suburban,Collector,T-Junction,Rain,Wet,1543.7,66.8,High,9.6
 6,1,Urban,Local,T-Junction,Snow,Snowy,1015.3,88.2,High,12.0
@@ -4667,7 +4663,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 7,2,Suburban,Interstate,None,Rain,Standing Water,2085.5,100.0,High,19.2
 15,6,Suburban,Collector,T-Junction,Rain,Wet,1335.3,31.4,High,20.7
 18,1,Suburban,Arterial,4-Way,Snow,Snowy,1015.9,63.4,Standard,24.0
-16,1,Urban,Arterial,T-Junction,Rain,Wet,1488.4,100.0,High,15.2
 7,1,Rural,Interstate,None,Clear,Dry,11546.4,86.9,Standard,38.9
 16,1,Suburban,Collector,T-Junction,Clear,Wet,12901.5,63.1,Medium,14.2
 16,10,Suburban,Collector,4-Way,Rain,Wet,2527.4,60.4,Standard,21.2
@@ -4827,7 +4822,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 12,6,Suburban,Arterial,Roundabout,Clear,Dry,7353.4,64.9,Medium,19.4
 6,5,Urban,Arterial,T-Junction,Clear,Dry,12367.0,76.8,High,11.8
 19,1,Suburban,Arterial,4-Way,Snow,Snowy,1013.8,100.0,Medium,28.7
-18,2,Suburban,Local,4-Way,Snow,Snowy,732.7,51.6,Medium,20.4
 15,8,Suburban,Arterial,Roundabout,Clear,Dry,11289.7,51.6,Standard,24.3
 10,5,Urban,Interstate,None,Rain,Wet,1451.9,87.7,High,6.6
 10,11,Rural,Interstate,None,Rain,Standing Water,2064.4,36.1,Standard,36.3
@@ -4900,7 +4894,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 15,10,Suburban,Interstate,None,Rain,Standing Water,1716.8,79.4,Standard,21.5
 12,10,Suburban,Interstate,None,Snow,Snowy,1024.4,90.3,Standard,21.5
 10,6,Urban,Arterial,4-Way,Clear,Dry,9306.9,59.3,High,9.9
-18,1,Suburban,Arterial,Roundabout,Rain,Wet,1820.1,82.9,Standard,18.0
 17,8,Suburban,Interstate,None,Clear,Dry,7742.6,100.0,Standard,28.1
 17,11,Urban,Local,T-Junction,Rain,Wet,1664.3,82.5,High,14.4
 12,4,Rural,Collector,T-Junction,Rain,Wet,1545.2,13.0,High,22.7
@@ -5609,7 +5602,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 0,12,Suburban,Arterial,T-Junction,Snow,Snowy,1090.4,25.1,Medium,24.1
 17,12,Urban,Local,4-Way,Rain ,Wet,1485.9,69.7,High,11.3
 9,3,Suburban,Interstate,None,Clear,Dry,8085.9,100.0,High,19.2
-7,10,Urban,Arterial,4-Way,Fog,Dry,297.4,100.0,Standard,27.6
 13,5,Rural,Interstate,None,Rain,Wet,1723.8,51.5,Standard,38.3
 7,12,Urban,Local,T-Junction,Rain,Wet,2122.2,83.3,Medium,18.2
 6,5,Suburban,Interstate,None,Clear,Dry,12432.0,100.0,High,27.5
@@ -5859,7 +5851,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 9,4,Rural,Local,4-Way,Clear,Dry,7530.7,2.8,Medium,30.2
 19,3,Urban,Local,None,Rain,Standing Water,1232.4,91.4,High,9.1
 6,6,Suburban,Local,4-Way,Rain,Wet,2314.8,43.5,Standard,19.6
-10,5,Suburban,Interstate,None,Rain,Wet,2469.1,93.4,High,19.5
 19,7,Urban,Local,T-Junction,Clear,Dry,4968.1,62.0,Medium,14.5
 16,1,Urban,Collector,4-Way,Rain,Wet,1984.9,89.4,High,19.7
 5,5,Urban,Arterial,T-Junction,Clear,Dry,12093.3,26.4,Standard,11.5
@@ -6260,7 +6251,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 19,8,Urban,Arterial,Roundabout,Clear,Dry,7105.7,95.0,Standard,22.6
 6,4,Urban,Arterial,4-Way,Rain ,Standing Water,2414.7,100.0,Medium,19.0
 10,9,Rural,Interstate,None,Clear,Dry,7652.0,45.0,Medium,33.9
-9,8,Suburban,Interstate,None,Rain,Standing Water,2166.3,100.0,Standard,25.7
 6,7,Rural,Interstate,None,Rain,Wet,2139.6,79.6,Standard,32.9
 18,8,Rural,Interstate,None,Clear,Dry,7578.6,68.7,Standard,41.9
 8,9,Suburban,Interstate,None,Clear,Dry,9378.7,90.9,Standard,21.5
@@ -6395,7 +6385,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 9,6,Suburban,Arterial,4-Way,Rain,Wet,2115.2,93.5,Standard,23.6
 10,2,Suburban,Local,T-Junction,Snow,Snowy,957.1,36.3,Standard,27.0
 8,4,Rural,Interstate,None,Clear,Dry,10128.9,73.9,High,35.4
-14,10,Urban,Interstate,None,Fog,Wet,283.8,96.3,Standard,26.4
 16,10,Urban,Interstate,None,Clear,Dry,11880.4,100.0,Medium,12.5
 12,9,Suburban,Interstate,None,Clear,Dry,9387.1,52.3,Standard,20.8
 16,9,Urban,Local,None,Fog,Dry,246.2,56.1,High,14.1
@@ -6482,10 +6471,8 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 18,1,Suburban,Arterial,T-Junction,Clear,Dry,10508.5,77.4,Medium,25.2
 3,2,Urban,Interstate,None,Snow,Icy,1088.4,43.8,Standard,15.3
 7,9,Rural,Interstate,None,Clear,Dry,9913.3,84.4,Medium,33.3
-11,9,Suburban,Interstate,None,Rain,Wet,1937.4,72.5,High,17.4
 18,6,Suburban,Arterial,4-Way,Clear,Dry,12713.2,93.2,Standard,20.9
 19,10,Rural,Local,None,Clear,Wet,6045.5,6.6,Standard,34.3
-18,6,Rural,Interstate,None,Rain,Wet,2249.8,81.3,Standard,40.0
 13,8,Urban,Interstate,None,Clear,Dry,9532.7,100.0,Standard,18.0
 11,2,Urban,Arterial,T-Junction,Rain,Wet,1561.6,74.9,Medium,10.5
 15,7,Suburban,Interstate,None,Clear,Dry,10215.0,82.0,High,16.3
@@ -6598,7 +6585,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 14,11,Urban,Arterial,T-Junction,Clear,Dry,9574.4,69.5,Standard,17.2
 18,3,Suburban,Collector,T-Junction,Fog,Dry,162.1,46.3,Medium,22.0
 6,12,Suburban,Interstate,None,Snow,Icy,1149.4,100.0,Standard,25.1
-8,7,Rural,Interstate,None,Rain ,Wet,2569.7,98.4,Standard,39.8
 18,11,Urban,Collector,T-Junction,Rain,Wet,1851.0,64.5,High,11.3
 12,10,Rural,Arterial,4-Way,Snow,Icy,1068.9,51.4,Standard,36.7
 8,3,Suburban,Arterial,Roundabout,Rain,Wet,1634.4,85.7,High,23.1
@@ -6765,7 +6751,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 6,11,Urban,Local,None,Clear,Dry,9897.0,68.0,High,15.8
 17,3,Suburban,Arterial,T-Junction,Snow,Snowy,867.8,100.0,Standard,33.2
 7,5,Suburban,Arterial,4-Way,Clear,Dry,9815.1,78.8,Standard,17.8
-9,3,Urban,Arterial,T-Junction,Rain,Standing Water,,100.0,Medium,16.4
 21,4,Rural,Local,4-Way,Clear,Dry,11439.9,2.2,High,24.8
 7,3,Suburban,Interstate,None,Clear,Dry,10405.5,100.0,High,17.9
 7,9,Urban,Local,T-Junction,Clear,Dry,11206.0,68.6,Standard,12.7
@@ -6809,7 +6794,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 8,8,Urban,Interstate,None,Rain,Wet,1836.4,100.0,Medium,18.6
 7,12,Urban,Arterial,4-Way,Snow,Snowy,842.0,100.0,Medium,23.0
 12,10,Rural,Interstate,None,Clear,Dry,8641.3,53.7,Standard,42.1
-16,8,Urban,Arterial,Roundabout,Clear,Dry,8933.2,94.6,Medium,19.1
 16,10,Rural,Interstate,None,Rain,Wet,2003.5,83.8,High,32.9
 19,12,Urban,Interstate,None,Snow,Icy,1292.9,100.0,Standard,28.8
 9,8,Suburban,Collector,4-Way,Clear,Dry,10878.2,65.3,Standard,20.8
@@ -7206,7 +7190,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 9,5,Rural,Interstate,None,Clear,Dry,6104.9,88.1,Standard,33.1
 7,4,Urban,Arterial,T-Junction,rain,Standing Water,1838.1,100.0,High,14.3
 6,4,Suburban,Local,T-Junction,Rain,Wet,1752.4,47.0,High,14.0
-17,3,Urban,Arterial,T-Junction,Clear,Dry,10189.6,100.0,Standard,16.6
 11,9,Suburban,Interstate,None,Clear,Dry,11173.7,72.1,High,21.2
 8,4,Urban,Arterial,T-Junction,Fog,Wet,238.8,83.7,Medium,19.7
 9,7,Suburban,Arterial,T-Junction,Clear,Dry,6321.3,79.7,Standard,17.8
@@ -7374,7 +7357,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 16,1,Suburban,Arterial,4-Way,Snow,Snowy,1325.7,97.2,Medium,22.4
 16,8,Urban,Arterial,4-Way,Clear,Dry,9989.0,99.4,Medium,17.4
 19,1,Urban,Interstate,None,Rain ,Wet,2461.1,100.0,Standard,18.4
-2,1,Urban,Arterial,4-Way,Snow,Snowy,689.1,33.5,Medium,14.8
 12,5,Suburban,Interstate,None,Rain,Standing Water,2197.2,53.5,Standard,16.8
 10,4,Urban,Arterial,T-Junction,Rain,Wet,1907.4,76.9,Standard,8.5
 7,4,Suburban,Arterial,4-Way,Rain,Wet,2024.5,86.3,Standard,22.3
@@ -7382,7 +7364,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 9,12,Urban,Arterial,Roundabout,Clear,Wet,7979.3,81.6,High,19.0
 18,3,Urban,Arterial,Roundabout,Rain,Wet,,100.0,Standard,17.0
 16,10,Urban,Arterial,4-Way,Clear,Dry,5275.2,100.0,Standard,13.3
-17,3,Urban,Arterial,4-Way,Rain,Wet,2765.2,85.1,High,11.7
 9,10,Suburban,Arterial,4-Way,Rain,Standing Water,2320.9,64.6,Standard,21.0
 6,9,Urban,Collector,T-Junction,Rain,Wet,1945.6,89.6,Medium,24.3
 9,10,Suburban,Arterial,4-Way,Clear,Dry,8166.0,78.8,Standard,23.6
@@ -7481,7 +7462,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 18,5,Urban,Arterial,T-Junction,Rain,Wet,1605.2,100.0,Standard,21.1
 8,10,Urban,Interstate,None,Fog,Dry,189.2,100.0,High,18.8
 6,2,Suburban,Interstate,None,Clear,Dry,12491.8,100.0,Standard,25.0
-6,6,Suburban,Arterial,4-Way,Rain,Wet,,83.5,High,22.2
 11,12,Urban,Interstate,None,Snow,Snowy,1198.4,100.0,Standard,19.8
 7,8,Urban,Arterial,Roundabout,Clear,Dry,11691.4,100.0,High,9.0
 8,2,Suburban,Interstate,None,Clear,Dry,9255.0,72.9,High,19.4
@@ -7786,7 +7766,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 19,11,Suburban,Interstate,None,Clear,Dry,10692.4,100.0,Standard,24.9
 8,3,Suburban,Local,T-Junction,Clear,Dry,11988.2,51.0,Medium,16.0
 19,6,Urban,Collector,None,Clear,Dry,11089.4,89.8,Standard,20.5
-9,4,Suburban,Interstate,None,Clear,Dry,10673.4,100.0,Standard,22.4
 6,9,Rural,Local,None,Rain,Wet,1186.4,15.6,Standard,25.0
 8,1,Urban,Arterial,Roundabout,Rain,Wet,1896.1,93.7,Medium,14.6
 18,12,Suburban,Arterial,4-Way,Snow,Snowy,802.0,100.0,High,27.5
@@ -8113,7 +8092,6 @@ Hour,Month,Area_Type,Road_Type,Intersection_Type,Weather,Road_Condition,Visibili
 20,8,Urban,Local,T-Junction,Rain,Wet,3068.7,14.7,Medium,9.8
 9,10,Suburban,Collector,T-Junction,Clear,Dry,10881.2,35.3,Medium,20.2
 17,12,Suburban,Arterial,T-Junction,Snow,Snowy,977.6,84.6,High,17.1
-10,1,Urban,Interstate,None,Clear,Dry,9534.7,91.5,Standard,21.7
 22,9,Urban,Local,T-Junction,Rain,Wet,1409.6,18.0,Medium,7.7
 19,11,Rural,Interstate,None,Clear,Dry,11926.6,100.0,High,41.1
 23,11,Suburban,Collector,4-Way,Rain,Wet,1939.2,14.3,Medium,17.1
