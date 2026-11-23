@@ -32,7 +32,7 @@ from .tasks import (
 )
 
 
-@flow(name="diabetes-training", log_prints=True)
+@flow(name="ambulance-response-time-training", log_prints=True)
 def training_flow(
     push: bool = False,
     # NOT `register`: Prefect builds a pydantic model from the flow's
@@ -102,7 +102,7 @@ def training_flow(
         raise
 
 
-@flow(name="diabetes-training-with-pull", log_prints=True)
+@flow(name="ambulance-response-time-training-with-pull", log_prints=True)
 def scheduled_flow() -> dict:
     """What a cron actually runs: fetch the current data, then train and gate.
 
