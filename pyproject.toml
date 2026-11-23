@@ -6,13 +6,6 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "scikit-learn>=1.8.0",
-    # UPPER BOUND, deliberate. With `>=2.0.0` alone, Week 1's stale lock
-    # re-resolved to pandas 3.0.5 on a fresh clone while Weeks 2-5 sat at
-    # 2.3.3, and any future `uv lock` would have carried the rest of the
-    # course across a major version one week at a time. The pinned baseline
-    # (LR F1 0.5785 / accuracy 0.7344) is unaffected by 3.x -- measured both
-    # ways on data/diabetes.csv -- so this is skew protection, not a bug fix.
-    # Lift it for every week at once, after re-measuring the pins.
     "pandas>=2.0.0,<3",
     "python-dotenv>=1.0.0",
     "mlflow==3.13.0",
@@ -20,6 +13,7 @@ dependencies = [
     "joblib>=1.4.0",
     "pyyaml>=6.0",
     "pandera[pandas]>=0.32.1",
+    "prefect==3.8.2",
     "fairlearn>=0.14.0",
 ]
 
@@ -27,17 +21,29 @@ dependencies = [
 test = [
     "pytest>=8.0.0",
 ]
+lint = [
+    "ruff==0.16.1",
+]
 
 [tool.pytest.ini_options]
 markers = [
+    "unit: unit tests with no external dependencies",
+    "data: data and data contract tests",
+    "eval: model evaluation and release gate tests",
+    "integration: integration tests across components",
     "live: requires the Docker Compose stack to be running",
     "dvc: requires a DVC-initialised repo",
 ]
-# Warnings raised inside pandera and joblib, not by your code.
 filterwarnings = [
     "ignore:The behavior of DataFrame concatenation with empty or all-NA entries:FutureWarning:pandera.backends.pandas.error_formatters",
     "ignore:Setting the shape on a NumPy array has been deprecated:DeprecationWarning:joblib.numpy_pickle",
 ]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
 
 [build-system]
 requires = ["hatchling"]

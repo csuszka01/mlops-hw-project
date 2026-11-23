@@ -57,3 +57,20 @@ def search_runs_by_data_version(settings: Settings, md5: str) -> pd.DataFrame:
         )
     except MlflowException:
         return pd.DataFrame()
+
+def prefect_available(settings, timeout: float = 3.0) -> bool:
+    """Is the Prefect API answering?
+
+    Same shape as `mlflow_available`, and for the same reason: production code
+    needs to be able to say "the thing you configured is not there" in a
+    sentence a student can act on, rather than surfacing a client library's
+    connection error.
+    """
+    import urllib.error
+    import urllib.request
+
+    try:
+        urllib.request.urlopen(settings.prefect_api_url.rstrip("/") + "/health", timeout=timeout)
+        return True
+    except (urllib.error.URLError, OSError):
+        return False

@@ -398,3 +398,55 @@ def _detail(check: dict) -> str:
     if kind == "fairness":
         return f"observed {check.get('observed')} vs limit {check.get('limit')}"
     return check.get("reason") or ""
+
+def format_gate_markdown(report: dict) -> str:
+    """The gate verdict as GitHub-flavoured markdown, for a job summary.
+
+    Why this lives here rather than as a shell heredoc inside the workflow:
+    a `run:` block is the one place in a project that nothing tests. Logic that
+    ends up there is invisible to the linter, invisible to pytest, and only
+    runs on a machine you have to push to in order to observe. Keep workflows
+    thin -- checkout, install, invoke -- and put anything with a branch in it
+    somewhere a test can reach.
+    """
+    if not report:
+        return "### Gate\n\nNo verdict recorded — the gate never ran.\n"
+
+    verdict = report["verdict"]
+    summary = report.get("summary", {})
+    mark = "PASS" if verdict == "GO" else "FAIL"
+
+    lines = [
+        f"### {mark} — gate verdict: `{verdict}`",
+        "",
+        f"criteria `{report.get('criteria_version', 'unset')}` · "
+        f"**{summary.get('passed', 0)} passed** · "
+        f"**{summary.get('failed', 0)} failed** · "
+        f"**{summary.get('skipped', 0)} skipped**",
+        "",
+    ]
+
+    failed = [c for c in report.get("checks", []) if c.get("status") == "fail"]
+    if failed:
+        lines += ["| failed check | detail |", "| --- | --- |"]
+        for check in failed:
+            lines.append(f"| `{check['id']}` | {check.get('reason', '')} |")
+        lines.append("")
+
+    skipped = [c for c in report.get("checks", []) if c.get("status") == "skipped"]
+    if skipped:
+        lines.append(f"<details><summary>{len(skipped)} criteria were NOT evaluated</summary>")
+        lines.append("")
+        lines += ["| skipped check | why |", "| --- | --- |"]
+        for check in skipped:
+            lines.append(f"| `{check['id']}` | {check.get('reason', '')} |")
+        lines += ["", "</details>", ""]
+
+    deltas = report.get("deltas") or {}
+    if deltas:
+        lines += ["| metric | delta vs champion |", "| --- | ---: |"]
+        for name, value in deltas.items():
+            lines.append(f"| {name} | {value:+.4f} |")
+        lines.append("")
+
+    return "\n".join(lines)

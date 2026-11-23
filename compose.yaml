@@ -25,17 +25,30 @@ name: mlops-hw-project
 services:
 
   # ── Postgres: relational backend store ─────────────────────────────────────
-  # Experiment names, run IDs, params, metrics, tags. Image pinned.
+  # Stores experiment names, run IDs, parameters, metrics, and tags.
+  # Image pinned to 16.3 for reproducibility.
   postgres:
     image: postgres:16.3
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      # NEW in Week 8. Prefect keeps its own state -- flow runs, task runs,
+      # deployments, schedules -- and it does NOT share MLflow's schema.
+      PREFECT_DB: ${PREFECT_DB:-prefectdb}
     ports:
       - "${POSTGRES_HOST_PORT:-5532}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      # Creates the SECOND database on first initialisation of the volume.
+      #
+      # THE TRAP, and it is worth knowing before it costs you an hour: scripts
+      # in docker-entrypoint-initdb.d run ONLY when the data directory is
+      # empty. Re-use a volume from an earlier week and this never executes, so
+      # the Prefect server starts, fails to find its database, and says nothing
+      # about volumes. `make down-v` (or the per-week project name, which gives
+      # this week its own volume) is what actually fixes it.
+      - ./init-prefect-db.sh:/docker-entrypoint-initdb.d/10-prefect-db.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
@@ -117,6 +130,28 @@ services:
       timeout: 10s
       retries: 10
       start_period: 15s
+    restart: unless-stopped
+  
+  prefect:
+    image: prefecthq/prefect:3.8.2-python3.12
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PREFECT_SERVER_DATABASE_CONNECTION_URL: >-
+        postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${PREFECT_DB:-prefectdb}
+      PREFECT_SERVER_API_HOST: 0.0.0.0
+      # ADD this line, the UI uses it to find the API from the browser
+      PREFECT_UI_API_URL: http://127.0.0.1:${PREFECT_PORT:-5520}/api
+    command: prefect server start --host 0.0.0.0 --port 4200
+    ports:
+      - "${PREFECT_PORT:-5520}:4200"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:4200/api/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
     restart: unless-stopped
 
 volumes:

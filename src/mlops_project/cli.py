@@ -8,18 +8,25 @@
     uv run python src/main.py evaluate                 # DVC stage 3, Exercise 1: writes the slices
     uv run python src/main.py slices                   # Exercises 1, 2: print the slice table
     uv run python src/main.py gate                     # DVC stage 4, Exercises 3, 4: go or no-go
-    uv run python src/main.py fairness                 # Exercise 5: the three gaps
+    uv run python src/main.py fairness                 # Exercise 5: the two gaps
     uv run python src/main.py baseline                 # Exercise 6: the recorded champion
     uv run python src/main.py baseline-sync            # Exercise 6: raise the bar
     uv run python src/main.py predict [--payload ...]  # validate a request, then predict
-    uv run python src/main.py build-data --version N   # build the dataset (make data-v2)
+    uv run python src/main.py build-data --version N   # build the dataset (make data-v1)
     uv run python src/main.py verify-data              # data on disk versus the DVC pointer
     uv run python src/main.py runs-for-data            # runs trained on this data version
     uv run python src/main.py register                 # Exercise 4: register after a GO
     uv run python src/main.py promote [--champion]     # Exercise 4: move the aliases
     uv run python src/main.py trace                    # the full chain
+    uv run python src/main.py ci-explain               # Week 7: inspect CI workflows
+    uv run python src/main.py gate-summary             # Week 7: gate verdict as markdown
+    uv run python src/main.py flow                     # Week 8: run Prefect training flow
+    uv run python src/main.py serve                    # Week 8: serve scheduled flow
 
 `validate` and `gate` exit non-zero on a bad outcome, because DVC runs them as stages.
+
+HOMEWORK PROJECT CLI.PY
+
 """
 
 from __future__ import annotations
@@ -40,12 +47,11 @@ from .datasets import MAX_VERSION, build_measurements, file_md5
 from .dvc_meta import pointer_path, read_pointer, remote_object_key
 from .evaluation import format_slices
 from .fairness import format_fairness
-from .gates import format_gate
+from .gates import format_gate, format_gate_markdown
 from .schemas import MODEL_INPUT_COLUMNS, SENTINEL_COLUMNS, ModelInput, RawMeasurements
 from .validation import (
     format_report,
     read_raw,
-    read_report,
     sentinel_counts,
     to_nullable,
     validate_frame,
@@ -58,6 +64,7 @@ from .registry import (
     trace_alias,
 )
 from .tracking import mlflow_available, search_runs_by_data_version
+from .workflows import audit, format_audit
 
 
 def _rel(settings: Settings, path) -> str:
@@ -91,7 +98,7 @@ def cmd_verify_data(settings: Settings, args) -> None:
         rows = sum(1 for _ in path.open()) - 1
         print(f"  {path.name:<20} {rows} rows, md5 {file_md5(path)}")
     else:
-        print(f"  {path.name:<20} ABSENT (run `make data-v1`)")  # CHANGED, was data-v2
+        print(f"  {path.name:<20} ABSENT (run `make data-v1`)")
 
     print("DVC pointer")
     try:
@@ -131,7 +138,7 @@ def cmd_check_file(settings: Settings, args) -> None:
         path = candidate if candidate.exists() else path
     if not path.exists():
         raise FileNotFoundError(
-            f"No such file: {path}. Put a broken batch at "  # CHANGED, was the sync_datasets.sh message
+            f"No such file: {path}. Put a broken batch at "
             "data/quality/broken_batch.csv or pass --path."
         )
 
@@ -156,7 +163,7 @@ def cmd_model_input(settings: Settings, args) -> None:
     source = settings.measurements_path
     if not source.exists():
         raise FileNotFoundError(
-            f"{source.name} is missing. Run `make data-v1`."  # CHANGED, was data-v2
+            f"{source.name} is missing. Run `make data-v1`."
         )
 
     frame = read_raw(source)[MODEL_INPUT_COLUMNS]
@@ -177,7 +184,6 @@ def cmd_model_input(settings: Settings, args) -> None:
     print()
     if not before or not after:
         return
-    # CHANGED, replaces the four lines about nothing invented and nothing filled in
     print(f"  {before['n_failure_cases']} violations -> {after['n_failure_cases']}.")
     print("  Your data has no sentinel zeros, so both runs should agree.")
     print()
@@ -210,8 +216,7 @@ def cmd_predict(settings: Settings, args) -> None:
     if not result["report"]:
         return
     if result["report"]["passed"]:
-        print(f"  prediction  : {result['prediction']} minutes")  # CHANGED, was just the value
-        # CHANGED, the probability line is deleted here
+        print(f"  prediction  : {result['prediction']} minutes")
         print()
         print("  The same schema object guarded the training data. That is the")
     else:
@@ -282,7 +287,7 @@ def cmd_slices(settings: Settings, args) -> None:
     print(format_slices(report, metrics))
     print()
     if report:
-        print("  Read `n` before you read any metric on the same row.")  # CHANGED, was n and pos
+        print("  Read `n` before you read any metric on the same row.")
         print()
 
 
@@ -296,7 +301,6 @@ def cmd_fairness(settings: Settings, args) -> None:
     gated = settings.acceptance.get("fairness") or {}
     print(format_fairness(report.get("fairness") or {}, gated_axes=gated))
     print()
-    # CHANGED, text for the regression gaps, replaces the three gaps and the Pima paragraphs
     print("  Two gaps, the worst group's error minus the best group's, in minutes.")
     print("  A model can be good on average and still serve one group much worse.")
     print("  Only the axes listed under acceptance.fairness in params.yaml are gated.")
@@ -378,7 +382,7 @@ def cmd_runs_for_data(settings: Settings, args) -> None:
         print()
         return
     columns = [c for c in ["run_id", "tags.mlflow.runName", "params.learning_rate",
-            "metrics.rmse", "tags.git_commit"] if c in frame.columns]  # CHANGED, was params.C and metrics.f1
+            "metrics.rmse", "tags.git_commit"] if c in frame.columns]
     print(frame[columns].to_string(index=False))
     print()
     print(f"  {len(frame)} run(s). This is the question Week 3 could not ask:")
@@ -392,7 +396,6 @@ def cmd_register(settings: Settings, args) -> None:
         print("No MLflow run recorded yet. Run `make link` first.")
         print()
         return
-    # A NO-GO raises GateFailed (a RuntimeError); `main` prints it and exits 1.
     version = register_best_model(settings, run_id)
     print(f"Registered {version.name} version {version.version}")
     print(f"  source run: {version.run_id}")
@@ -406,7 +409,6 @@ def cmd_promote(settings: Settings, args) -> None:
         print("MLflow not reachable — start the stack with `make up`.")
         print()
         return
-    # Check the gate before the version lookup, so that a NO-GO is reported first.
     pipeline.require_go(settings)
     try:
         version = latest_version(settings)
@@ -479,6 +481,69 @@ def cmd_trace(settings: Settings, args) -> None:
     print()
 
 
+def cmd_gate_summary(settings: Settings, args) -> None:
+    """The gate verdict as markdown — for `$GITHUB_STEP_SUMMARY`."""
+    report = pipeline.read_gate(settings)
+    print(format_gate_markdown(report))
+
+
+def cmd_flow(settings: Settings, args) -> None:
+    """Run the Prefect training flow."""
+    from .flows import training_flow
+    from .tracking import prefect_available
+
+    if not prefect_available(settings):
+        raise RuntimeError(
+            f"No Prefect server at {settings.prefect_api_url} — start the stack with `make up`."
+        )
+
+    verdict = training_flow(
+        push=args.push,
+        register_model_version=args.register,
+        require_committed_params=args.require_committed,
+    )
+    print()
+    print(f"flow finished — verdict {verdict.get('verdict', '?')}")
+
+
+def cmd_serve(settings: Settings, args) -> None:
+    """Run a scheduled Prefect deployment."""
+    from .flows import scheduled_flow
+
+    print(f"Serving scheduled training flow on cron `{args.cron}`.")
+    print(f"Open the UI at {settings.prefect_api_url.replace('/api', '')} to watch it.")
+    print("Ctrl-C to stop.")
+    scheduled_flow.serve(name="weekly-retrain", cron=args.cron)
+
+
+def cmd_ci_explain(settings: Settings, args) -> None:
+    """Inspect CI workflows in the lab, git root, and grading templates."""
+    root = Path(__file__).resolve().parents[2]
+    repo = root
+    while repo != repo.parent and not (repo / ".git").is_dir():
+        repo = repo.parent
+
+    lab = sorted((root / ".github" / "workflows").glob("*.yml"))
+    installed = sorted((repo / ".github" / "workflows").glob("*.yml"))
+    grader = sorted((repo / "scripts" / "templates").glob("autograde.yml"))
+
+    print("Workflows authored in this lab (not executed until installed):")
+    for path in lab:
+        print(f"  {path.relative_to(root)}")
+    if not lab:
+        print("  none yet.")
+    print()
+    print("Workflows GitHub will actually run (repository root):")
+    for path in installed:
+        print(f"  {path.relative_to(repo)}")
+    if not installed:
+        print("  none — run `make install-ci`.")
+    print()
+
+    rows = audit(lab + installed + grader)
+    print(format_audit(rows))
+
+
 COMMANDS = {
     "validate": cmd_validate,
     "check-file": cmd_check_file,
@@ -498,13 +563,17 @@ COMMANDS = {
     "register": cmd_register,
     "promote": cmd_promote,
     "trace": cmd_trace,
+    "ci-explain": cmd_ci_explain,
+    "flow": cmd_flow,
+    "serve": cmd_serve,
+    "gate-summary": cmd_gate_summary,
 }
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="mlops-project",  # CHANGED, was week-06-evaluation-pipeline
-        description="MLOps homework project, model quality gates, slice evaluation and go/no-go.",  # CHANGED
+        prog="mlops-project",
+        description="MLOps homework project, model quality gates, slice evaluation and go/no-go.",
     )
     parser.add_argument("command", choices=sorted(COMMANDS))
     parser.add_argument(
@@ -528,14 +597,21 @@ def main() -> None:
         action="store_true",
         help="promote: move the `champion` alias too, raising the bar (Exercise 6)",
     )
+    parser.add_argument("--push", action="store_true", help="flow: dvc push after the run")
+    parser.add_argument("--register", action="store_true", help="flow: register on a GO")
+    parser.add_argument(
+        "--require-committed",
+        action="store_true",
+        dest="require_committed",
+        help="flow: refuse an uncommitted params.yaml",
+    )
+    parser.add_argument("--cron", default="0 3 * * 1", help="serve: schedule (default Mon 03:00)")
     args = parser.parse_args()
 
     settings = load_settings()
     try:
         COMMANDS[args.command](settings, args)
     except (FileNotFoundError, KeyError, RuntimeError, ValueError) as error:
-        # RuntimeError covers ValidationFailed and GateFailed. Exit non-zero:
-        # DVC runs these subcommands as stages.
         print()
         print(f"Cannot run `{args.command}` yet:")
         print(f"  {error}")

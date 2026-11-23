@@ -264,3 +264,105 @@ test:
 ## Run only the tests that need neither the stack nor a DVC repo
 test-fast:
 	uv run pytest tests/ -v -m "not live and not dvc"
+
+
+# ── CI / CT ───────────────────────────────────────────────────────────────────
+
+lint:
+	uv run ruff check src tests
+
+ensure-data:
+	@test -f data/measurements.csv || { \
+	  echo "data/measurements.csv is missing -- rebuild it from raw batches:"; \
+	  echo "    make data-v1   # or make data-v2"; \
+	  exit 1; }
+
+ensure-env:
+	@test -f .env || { cp .env.example .env; \
+	  echo "no .env found -> copied .env.example"; }
+
+ci: ensure-env ensure-data lint test-fast repro gate
+	@echo
+	@echo "CI passed: lint, tests, pipeline, gate."
+
+ci-local: ensure-env ensure-data
+	@echo "==> lint";     $(MAKE) --no-print-directory lint
+	@echo "==> unit";     $(MAKE) --no-print-directory test-unit
+	@echo "==> data";     $(MAKE) --no-print-directory test-data
+	@echo "==> eval";     $(MAKE) --no-print-directory test-eval
+	@echo "==> pipeline"; $(MAKE) --no-print-directory repro
+	@echo "==> gate";     $(MAKE) --no-print-directory gate
+
+ct-local: ensure-env ensure-data
+	$(MAKE) --no-print-directory repro
+	$(MAKE) --no-print-directory gate
+
+ci-fail:
+	@cp params.yaml .params.yaml.ci-bak
+	@uv run python -c "import pathlib; p=pathlib.Path('params.yaml'); p.write_text(p.read_text().replace('  max_iter: 300', '  max_iter: 1'))"
+	@echo "Planted fault in params.yaml. Running ci..."
+	@set +e; $(MAKE) --no-print-directory ci; rc=$$?; set -e; \
+	  echo; echo "\`make ci\` exit code: $$rc"; \
+	  mv .params.yaml.ci-bak params.yaml; \
+	  test "$$rc" -ne 0 || { echo "UNEXPECTED: gate did not fail"; exit 1; }
+
+gate-summary:
+	@uv run python src/main.py gate-summary
+
+ci-explain:
+	@uv run python src/main.py ci-explain
+
+install-ci:
+	@root=$$(git rev-parse --show-toplevel) && mkdir -p "$$root/.github/workflows" && \
+	  for f in .github/workflows/*.yml; do \
+	    cp "$$f" "$$root/.github/workflows/week08-$$(basename $$f)"; \
+	    echo "installed -> .github/workflows/week08-$$(basename $$f)"; \
+	  done
+
+uninstall-ci:
+	@root=$$(git rev-parse --show-toplevel) && \
+	  rm -f "$$root"/.github/workflows/week08-*.yml && echo "removed week08-*.yml"
+
+# ── Test pyramid ──────────────────────────────────────────────────────────────
+
+test-unit:
+	uv run pytest tests/ -q -m "unit"
+
+test-data:
+	uv run pytest tests/ -q -m "data and not live and not dvc"
+
+test-eval:
+	uv run pytest tests/ -q -m "eval and not live and not dvc"
+
+test-integration:
+	uv run pytest tests/ -q -m "integration"
+
+# ── Prefect orchestration ─────────────────────────────────────────────────────
+
+flow: ensure-env ensure-data
+	uv run python src/main.py flow
+
+flow-register: ensure-env ensure-data
+	uv run python src/main.py flow --push --register
+
+flow-dvc: ensure-env
+	@echo "=== DVC's graph: what is stale? ==="
+	@$(DVC) dag
+	@echo
+	@echo "=== Prefect's graph: what ran, when, how many times, and what then? ==="
+	@echo "  Open $(shell grep -E '^PREFECT_API_URL' .env 2>/dev/null | sed 's|.*=||;s|/api||') and look at a flow run."
+
+flow-retry:
+	uv run pytest tests/test_flows.py -q -k "retr or transient or permanent" -v
+
+flow-committed: ensure-env ensure-data
+	uv run python src/main.py flow --require-committed
+
+serve: ensure-env ensure-data
+	uv run python src/main.py serve --cron "$(or $(CRON),*/5 * * * *)"
+
+prefect-ui:
+	@echo "http://127.0.0.1:$${PREFECT_PORT:-5520}"
+
+test-flows:
+	uv run pytest tests/test_flows.py tests/test_scope.py -q

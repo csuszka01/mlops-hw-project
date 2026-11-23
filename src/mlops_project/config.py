@@ -8,6 +8,7 @@ import yaml
 from dotenv import load_dotenv
 
 PROBLEM_TYPES = ("classification", "regression")
+SLICE_KINDS = ("bins", "category", "missing_flag")
 
 
 @dataclass(frozen=True)
@@ -44,6 +45,7 @@ class Settings:
     slices_path: Path = Path("metrics/slices.json")
     baseline_path: Path = Path("metrics/baseline.json")
     mlflow_tracking_uri: str = "http://127.0.0.1:5500"
+    prefect_api_url: str = "http://127.0.0.1:5520/api"
     mlflow_experiment_name: str = "ambulance-response-time"
     registered_model_name: str = "ambulance-response-regressor"
     model_alias: str = "staging"
@@ -98,6 +100,7 @@ def load_settings(project_root: Path | None = None) -> Settings:
         slices_path=base_path / "metrics/slices.json",
         baseline_path=base_path / "metrics/baseline.json",
         mlflow_tracking_uri=os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5500"),
+        prefect_api_url=os.getenv("PREFECT_API_URL", "http://127.0.0.1:5520/api"),
         mlflow_experiment_name=os.getenv("MLFLOW_EXPERIMENT_NAME", "ambulance-response-time"),
         registered_model_name=os.getenv("MLFLOW_REGISTERED_MODEL_NAME", "ambulance-response-regressor"),
         model_alias=os.getenv("MLFLOW_MODEL_ALIAS", "staging"),
@@ -126,9 +129,10 @@ def _validate(settings: Settings) -> None:
         raise ValueError("train.min_samples_leaf in params.yaml must be at least 1.")
     if settings.l2_regularization < 0:
         raise ValueError("train.l2_regularization in params.yaml must be 0 or greater.")
+    if settings.prefect_api_url and not settings.prefect_api_url.startswith("http"):
+        raise ValueError("PREFECT_API_URL must start with http:// or https://")
     _validate_slices(settings.slice_specs)
 
-SLICE_KINDS = ("bins", "category", "missing_flag")
 
 def _validate_slices(specs: dict) -> None:
     for name, spec in (specs or {}).items():
