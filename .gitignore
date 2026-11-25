@@ -28,3 +28,10 @@ dist/
 .dvc/cache/
 .dvc/tmp/
 .dvc/config.local
+
+# Prefect state and the HW4 model store, none of it is committed
+.prefect/
+prefect.db
+*.db-wal
+*.db-shm
+model-store/

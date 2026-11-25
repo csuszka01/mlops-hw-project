@@ -26,15 +26,16 @@ the model.
 
 ## Quick start
 
-```bash
-cp .env.example .env          # set DATA_PATH, TARGET_COLUMN, PROBLEM_TYPE
-uv sync --all-groups
-uv run pytest -v              # green immediately (synthetic data)
-# drop your dataset in data/ and:
-uv run python src/main.py     # baseline metrics on your data
-```
+Prerequisites are `uv` (https://docs.astral.sh/uv/), Python 3.12 or newer (uv installs it) and Docker for the local services.
 
-Prerequisites: `uv` (https://docs.astral.sh/uv/) and Python 3.12+ (uv installs it).
+```bash
+uv sync --locked --all-groups   # install the exact locked environment
+cp .env.example .env            # configuration, the values are placeholders
+uv run pytest -q                # tests pass with Docker stopped
+make up                         # Postgres, Silo and MLflow, waits for the healthchecks
+make dvc-pull                   # fetch the tracked data from Silo
+make repro                      # validate, prepare, train, evaluate and gate
+```
 
 ## Next
 
