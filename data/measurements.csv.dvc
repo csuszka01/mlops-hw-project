@@ -1,5 +1,5 @@
 outs:
-- md5: 3ffd6a52c2cb7792bf4d036b22cfd193
-  size: 516869
+- md5: 58f6a205293130c4fe23f801e9babf9a
+  size: 310024
   hash: md5
   path: measurements.csv
