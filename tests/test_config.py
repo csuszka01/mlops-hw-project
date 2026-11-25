@@ -5,7 +5,7 @@ from mlops_project.config import Settings, _validate
 
 def test_defaults():
     s = Settings()
-    assert s.problem_type == "classification"
+    assert s.problem_type == "regression"
     assert 0.0 < s.test_size < 1.0
 
 
