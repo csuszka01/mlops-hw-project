@@ -138,4 +138,4 @@ if set(_declared) == set(MODEL_INPUT_COLUMNS):
     )
 
 # Bump when a rule changes. It is logged on the MLflow run.
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
