@@ -8,9 +8,9 @@
     "skipped": 1
   },
   "deltas": {
-    "rmse": 0.1317,
-    "mae": 0.0934,
-    "r2": -0.0343
+    "rmse": 0.0,
+    "mae": 0.0,
+    "r2": 0.0
   },
   "checks": [
     {
@@ -44,9 +44,9 @@
       "id": "regression.rmse",
       "kind": "regression",
       "metric": "rmse",
-      "baseline": 3.5204,
+      "baseline": 3.6521,
       "observed": 3.6521,
-      "delta": 0.1317,
+      "delta": 0.0,
       "max_drop": 0.3,
       "status": "pass",
       "reason": null

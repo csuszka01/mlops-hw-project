@@ -174,7 +174,7 @@ stages:
     deps:
     - path: metrics/baseline.json
       hash: md5
-      md5: 6024f3255dc4d32d0c8008d629edf091
+      md5: 6cdf807e4c54f5e33328d7568d3b144d
       size: 261
     - path: metrics/metrics.json
       hash: md5
@@ -232,5 +232,5 @@ stages:
     outs:
     - path: reports/gate.json
       hash: md5
-      md5: d2e4f761795fc33447641ad6c19864de
-      size: 5981
+      md5: c3600a052616ba4d9156ef16ed7024c7
+      size: 5968

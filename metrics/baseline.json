@@ -1,11 +1,11 @@
 {
   "source": "mlflow://ambulance-response-regressor@champion",
   "model_name": "ambulance-response-regressor",
-  "model_version": "1",
-  "run_id": "0a91cf1505e7410c8c3f1f9cacfdd3f1",
+  "model_version": "2",
+  "run_id": "7242d0667b344e55ad4b1d95fdacbc2b",
   "metrics": {
-    "mae": 2.8033,
-    "r2": 0.8202,
-    "rmse": 3.5204
+    "mae": 2.8967,
+    "r2": 0.7859,
+    "rmse": 3.6521
   }
 }
