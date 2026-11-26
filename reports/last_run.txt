@@ -1,1 +1,1 @@
-GO — 22 passed, 0 failed, 0 skipped (criteria 1.0.0) | random_seed=42, train.family=hgb, train.l2_regularization=1.0, train.learning_rate=0.05, train.max_iter=300, train.max_leaf_nodes=15, train.min_samples_leaf=50 | params.yaml committed
+GO — 21 passed, 0 failed, 1 skipped (criteria 1.1.0) | random_seed=42, train.family=hgb, train.l2_regularization=1.0, train.learning_rate=0.05, train.max_iter=300, train.max_leaf_nodes=30, train.min_samples_leaf=50 | params.yaml committed

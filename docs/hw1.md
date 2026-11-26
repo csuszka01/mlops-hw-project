@@ -1,4 +1,4 @@
-# HW 1 evidence
+# HW1 Documentation
 
 Project repository `https://github.com/csuszka01/mlops-hw-project`. The task is regression on the Emergency Dispatch and Traffic Physics data, the target is `Actual_Response_Time_min`. Columns are described in `docs/DATA_DICTIONARY.md`.
 

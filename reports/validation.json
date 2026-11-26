@@ -2,7 +2,7 @@
   "source": "measurements.csv",
   "schema": "RawMeasurements",
   "schema_version": "1.1.0",
-  "rows": 8209,
+  "rows": 4925,
   "columns": [
     "Hour",
     "Month",
