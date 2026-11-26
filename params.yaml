@@ -5,8 +5,8 @@ prepare:
 
 train:
   family: hgb
-  learning_rate: 0.1
-  max_iter: 300
+  learning_rate: 0.05
+  max_iter: 1
   max_leaf_nodes: 15
   min_samples_leaf: 50
   l2_regularization: 1.0

@@ -88,18 +88,18 @@ stages:
         random_seed: 42
         train.family: hgb
         train.l2_regularization: 1.0
-        train.learning_rate: 0.05
+        train.learning_rate: 0.1
         train.max_iter: 300
         train.max_leaf_nodes: 15
         train.min_samples_leaf: 50
     outs:
     - path: models/mlflow_run_id.json
       hash: md5
-      md5: f48f8274c4bea55fabd38b92fff73e46
+      md5: eeb35fc5821977012d57cb357bc73a61
       size: 82
     - path: models/model.pkl
       hash: md5
-      md5: 22ef78e223f4b62cc0794af3db4a9b4c
+      md5: aeaf58520a19a3b7da4e5d33ac273f25
       size: 560850
   evaluate:
     cmd: uv run python src/main.py evaluate
@@ -110,11 +110,11 @@ stages:
       size: 103548
     - path: models/mlflow_run_id.json
       hash: md5
-      md5: f48f8274c4bea55fabd38b92fff73e46
+      md5: eeb35fc5821977012d57cb357bc73a61
       size: 82
     - path: models/model.pkl
       hash: md5
-      md5: 22ef78e223f4b62cc0794af3db4a9b4c
+      md5: aeaf58520a19a3b7da4e5d33ac273f25
       size: 560850
     - path: src/mlops_project/evaluation.py
       hash: md5
@@ -163,11 +163,11 @@ stages:
     outs:
     - path: metrics/metrics.json
       hash: md5
-      md5: 7958b81b44f7feef480e57f3aa4200ff
+      md5: e25411d17a097522a59037aacc2e2ecf
       size: 54
     - path: metrics/slices.json
       hash: md5
-      md5: 16f7c9aa5c8417a2ae9f41db7693454f
+      md5: c61d00e3ebba075ab770dbcce1a78dae
       size: 3314
   gate:
     cmd: uv run python src/main.py gate
@@ -178,15 +178,15 @@ stages:
       size: 261
     - path: metrics/metrics.json
       hash: md5
-      md5: 7958b81b44f7feef480e57f3aa4200ff
+      md5: e25411d17a097522a59037aacc2e2ecf
       size: 54
     - path: metrics/slices.json
       hash: md5
-      md5: 16f7c9aa5c8417a2ae9f41db7693454f
+      md5: c61d00e3ebba075ab770dbcce1a78dae
       size: 3314
     - path: models/mlflow_run_id.json
       hash: md5
-      md5: f48f8274c4bea55fabd38b92fff73e46
+      md5: eeb35fc5821977012d57cb357bc73a61
       size: 82
     - path: src/mlops_project/baseline.py
       hash: md5
@@ -232,5 +232,5 @@ stages:
     outs:
     - path: reports/gate.json
       hash: md5
-      md5: d2e4f761795fc33447641ad6c19864de
-      size: 5981
+      md5: 04f715aebc2028edc6b9f89265a56c43
+      size: 5978
