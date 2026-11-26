@@ -37,6 +37,32 @@ make dvc-pull                   # fetch the tracked data from Silo
 make repro                      # validate, prepare, train, evaluate and gate
 ```
 
+## Host ports
+
+The services use the 55xx block, as in the course labs, so only one stack can run at a time. Run make down in the other lab before make up here.
+
+| Service | Host port | Container port |
+| :--- | :--- | :--- |
+| MLflow UI | 5500 | 5000 |
+| Silo S3 API | 5510 | 9000 |
+| Silo console | 5511 | 9001 |
+| Prefect server and UI | 5520 | 4200 |
+| Postgres | 5532 | 5432 |
+
+## Data
+
+The raw batches are in `data/raw/` and are committed to Git. `make data-v1` builds dataset version 1 from the first batch and `make data-v2` builds version 2 from both. DVC tracks the built file `data/measurements.csv`, and the pointer `data/measurements.csv.dvc` is committed.
+
+| DVC details | value |
+|---|---|
+| Current version | 2, both batches |
+| md5 | `aed18119c18a85d1baae62dc4213b6a2` |
+| Size | 516869 bytes |
+| Rows | 8209 |
+| Columns | 11, ten features and the target `Actual_Response_Time_min` |
+
+A fresh clone gets the data with `make dvc-pull`.
+
 ## Next
 
 1. Add your dataset to `data/` and document it in `docs/DATA_DICTIONARY.md`.
