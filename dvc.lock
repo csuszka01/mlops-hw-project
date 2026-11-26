@@ -5,7 +5,7 @@ stages:
     deps:
     - path: data/measurements.csv
       hash: md5
-      md5: 3ffd6a52c2cb7792bf4d036b22cfd193
+      md5: aed18119c18a85d1baae62dc4213b6a2
       size: 516869
     - path: src/mlops_project/pipeline.py
       hash: md5
@@ -29,7 +29,7 @@ stages:
     deps:
     - path: data/measurements.csv
       hash: md5
-      md5: 3ffd6a52c2cb7792bf4d036b22cfd193
+      md5: aed18119c18a85d1baae62dc4213b6a2
       size: 516869
     - path: reports/validation.json
       hash: md5
@@ -50,19 +50,19 @@ stages:
     outs:
     - path: data/processed/test.csv
       hash: md5
-      md5: 949abaadfd027b1533aa2dd7bc352428
-      size: 103591
+      md5: e211a2c8a4bf5bc44937b85fd006b2a7
+      size: 103548
     - path: data/processed/train.csv
       hash: md5
-      md5: 5850c7aedb54ce43e2fc117b8fdb3589
-      size: 413423
+      md5: b7275137d52c45f7a307d296566905e7
+      size: 413466
   train:
     cmd: uv run python src/main.py train
     deps:
     - path: data/processed/train.csv
       hash: md5
-      md5: 5850c7aedb54ce43e2fc117b8fdb3589
-      size: 413423
+      md5: b7275137d52c45f7a307d296566905e7
+      size: 413466
     - path: src/mlops_project/dvc_link.py
       hash: md5
       md5: 27a3f7f05e7baf0c5e15dc098d6660dc
@@ -95,26 +95,26 @@ stages:
     outs:
     - path: models/mlflow_run_id.json
       hash: md5
-      md5: fcae273d4ce2fc5970f9ed5b043bc45d
+      md5: f48f8274c4bea55fabd38b92fff73e46
       size: 82
     - path: models/model.pkl
       hash: md5
-      md5: 44b29258cec575516a29d4779a2c7c24
+      md5: 22ef78e223f4b62cc0794af3db4a9b4c
       size: 560850
   evaluate:
     cmd: uv run python src/main.py evaluate
     deps:
     - path: data/processed/test.csv
       hash: md5
-      md5: 949abaadfd027b1533aa2dd7bc352428
-      size: 103591
+      md5: e211a2c8a4bf5bc44937b85fd006b2a7
+      size: 103548
     - path: models/mlflow_run_id.json
       hash: md5
-      md5: fcae273d4ce2fc5970f9ed5b043bc45d
+      md5: f48f8274c4bea55fabd38b92fff73e46
       size: 82
     - path: models/model.pkl
       hash: md5
-      md5: 44b29258cec575516a29d4779a2c7c24
+      md5: 22ef78e223f4b62cc0794af3db4a9b4c
       size: 560850
     - path: src/mlops_project/evaluation.py
       hash: md5
@@ -163,12 +163,12 @@ stages:
     outs:
     - path: metrics/metrics.json
       hash: md5
-      md5: 31dad4367d9f7c99c5e8addc519e2c2a
+      md5: 7958b81b44f7feef480e57f3aa4200ff
       size: 54
     - path: metrics/slices.json
       hash: md5
-      md5: e4a906a02ff57a89930b5a395f530c37
-      size: 3315
+      md5: 16f7c9aa5c8417a2ae9f41db7693454f
+      size: 3314
   gate:
     cmd: uv run python src/main.py gate
     deps:
@@ -178,15 +178,15 @@ stages:
       size: 261
     - path: metrics/metrics.json
       hash: md5
-      md5: 31dad4367d9f7c99c5e8addc519e2c2a
+      md5: 7958b81b44f7feef480e57f3aa4200ff
       size: 54
     - path: metrics/slices.json
       hash: md5
-      md5: e4a906a02ff57a89930b5a395f530c37
-      size: 3315
+      md5: 16f7c9aa5c8417a2ae9f41db7693454f
+      size: 3314
     - path: models/mlflow_run_id.json
       hash: md5
-      md5: fcae273d4ce2fc5970f9ed5b043bc45d
+      md5: f48f8274c4bea55fabd38b92fff73e46
       size: 82
     - path: src/mlops_project/baseline.py
       hash: md5
@@ -203,7 +203,7 @@ stages:
     params:
       params.yaml:
         acceptance:
-          criteria_version: 1.0.0
+          criteria_version: 1.1.0
           minimum:
             r2: 0.7
           maximum:
@@ -216,9 +216,9 @@ stages:
             - mae
             - r2
           slice_rules:
-            min_support: 30
+            min_support: 50
             max_rmse: 5.5
-            max_rmse_gap: 1.5
+            max_rmse_gap: 2
           fairness:
             weather:
               max_rmse_gap: 2.0
@@ -232,5 +232,5 @@ stages:
     outs:
     - path: reports/gate.json
       hash: md5
-      md5: b0a5083ddf54bd6e30dd6e792b97e2de
-      size: 6022
+      md5: d2e4f761795fc33447641ad6c19864de
+      size: 5981

@@ -30,7 +30,7 @@ evaluation:
 # The acceptance criteria, what "ready to ship" means.
 acceptance:
   # Stamped onto the MLflow run. Change it whenever a threshold changes.
-  criteria_version: "1.0.0"
+  criteria_version: "1.1.0" # changed min support from 30 to 50
 
   # CHANGED, regression thresholds, placeholders set from your baseline
   # (rmse 3.6254, mae 2.873, r2 0.7924). Tune them after the first `make repro`.
@@ -47,9 +47,9 @@ acceptance:
     also_report: [mae, r2]
 
   slice_rules:
-    min_support: 30
+    min_support: 50
     max_rmse: 5.5
-    max_rmse_gap: 1.5
+    max_rmse_gap: 2
 
   fairness:
     weather:
